@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block title %}Troc{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+	<div id="columns">
+			<figure id="template"  style="margin-left:5px;">
+				<img />
+				<figCaption>
+					<div class="link">
+						<p class="center"> <a href></a>   </p>
+					</div>
+					<div class="price">
+						<p class="center">
+							<span class="priceValue" > </span> 	
+							<span  class="likeButton"> </span>
+						</p>
+					</div>
+					
+				</figCaption>
+				
+			</figure>
+
+		<script type="text/javascript">
+		$(document).ready(function(){
+			var items = $.jStorage.get('itemsILike');
+			for(i =0 ; i < items.length ; i++)
+			{
+				var newItem = $("#template").clone();
+				$(newItem).find('img').each( function() { $(this).attr("src",items[i].imgUrl)});
+				$(newItem).find('.link p a').each( function() { 
+					$(this).attr("href",items[i].url); 
+					$(this).text(items[i].title);
+				});
+				
+				$(newItem).find('.priceValue').each( function() { 
+						$(this).text(items[i].price + ' (' + items[i].location +  ')' );
+				});
+				var item = items[i];
+				$(newItem).find('.likeButton').each( function() { 
+						$(this).prop("id", "like" + i);
+						$(this).click(function(){
+							addToStorage("#" +$(this).prop("id"),item );
+							$(this).parents('figure').css('display',"none");
+						});
+						$(this).css("-webkit-filter","grayscale(0%)");
+				});
+
+				$(newItem).attr("id","");
+				$('#columns').prepend(newItem);
+			}
+			$("#template").hide();
+
+		});
+		 </script>
+	</div>
+</div>
+		
+{% endblock  %}

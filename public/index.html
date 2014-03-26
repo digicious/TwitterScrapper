@@ -1,0 +1,100 @@
+<html>
+<head>
+	<style>
+       .slideshow {
+	   width: 960px;
+	   height: 640px;
+	   overflow: hidden;
+	   border: 3px solid #F2F2F2;
+	}
+
+	.slideshow ul {
+	    /* 4 images donc 4 x 100% */
+	   width: 100%;
+	   height: 640px;
+	   padding:0; margin:0;
+	   list-style: none;
+	}
+	.slideshow li {
+	   float: left;
+	}
+	.slideshow li div  {
+	    width: 960px;
+	   height: 640px;
+	   margin-right: auto;
+	   margin-left: auto;
+	}
+
+	.slideshow li div img {
+	   max-width: 960px;
+	   max-height: 640px;
+	}
+
+  </style>
+
+  	<script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>  
+   
+	<script type="text/javascript">  
+
+	function getQueryStrings() { 
+		  var assoc  = {};
+		  var decode = function (s) { return decodeURIComponent(s.replace(/\+/g, " ")); };
+		  var queryString = location.search.substring(1); 
+		  var keyValues = queryString.split('&'); 
+
+		  for(var i in keyValues) { 
+		    var key = keyValues[i].split('=');
+		    if (key.length > 1) {
+		      assoc[decode(key[0])] = decode(key[1]);
+		    }
+		  } 
+
+		  return assoc; 
+		} 
+
+
+		var counter = 0;
+		var images = [];
+		var nextPage = "";
+		var socket;
+	   $(function(){  
+	      setInterval(function(){  
+	      	// console.log(images);
+	        if(images.length !=0 )
+	        {
+	        	$("#host").empty().html("<li><div><img src=\""+ images[(counter++)%images.length] + "\"/></div></li>");	
+	        }
+	          
+	         if( (counter + 3) >  images.length)
+	         {
+	         	var q = getQueryStrings()["q"];
+	         	console.log(q);
+	        	console.log("nextPage :" + nextPage);
+      			var data = { "keyword": q, 'nextPage' :  nextPage };
+      			socket.emit("giveMeMore",data);
+	         }
+
+		   },3500);  
+	  
+	  socket = io.connect('http://localhost:8080');
+      socket.on('newImages', function (data) {
+			console.log("keyword :" + data.keyword);
+			console.log("images :" + data.images.length);
+		    for (var i = data.images.length - 1; i >= 0; i--) {
+		    	//console.log("<img src=\""+ data[i] + "\"/>");
+		    	images.push(data.images[i]);
+		    };
+		    nextPage =  data.nextPage ;
+	   });
+  	});
+	</script>
+	</head>
+	<body>
+		<div  class="slideshow">
+			<ul id="host"></ul>
+		</div>
+	</body>
+
+
+</html>

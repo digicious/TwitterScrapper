@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block title %}Troc{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+	<div id="columns">
+		{% for result in results %}
+			<figure>
+				<img src="{{result.imgUrl}}"/>
+				<figCaption>
+					<div class="link">
+						<p class="center"> <a href='{{result.url}}'>{{result.title}} </a>   </p>
+					</div>
+					<div class="price">
+						<p class="center"> 
+							<span> {{result.price}}  ({{result.location}}) </span>
+							<span   id="like{{loop.index}}"  class="likeButton" />
+						</p>
+					</div>
+					<script type="text/javascript">
+						$("#like{{loop.index}}").click(function()
+						{
+							addToStorage('#like{{loop.index}}', {'url': '{{result.url}}' , 'title': '{{result.title}}' , 'price' : '{{result.price}}', 'imgUrl' : '{{result.imgUrl}}', 'location':'{{result.location}}'});							
+						});
+						$.each(storage, function(index,value)
+						{
+							if( value.url == '{{result.url}}')
+							{
+								$('#like{{loop.index}}').css("-webkit-filter","grayscale(0%)");
+							}
+						});
+
+					</script>
+				</figCaption>
+				
+			</figure>
+		{% endfor %}
+	</div>
+</div>
+<div class="next">
+	<a href="{{nextUrl}}">  Next....	</a>
+</div>			
+
+<div >
+
+</div>
+		
+{% endblock  %}

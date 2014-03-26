@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %}{% endblock %}</title>
+   		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="/scripts/js.js"></script>
+        <script type="text/javascript" src="/scripts/jStorage.js"></script>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+        <link media="only screen and (max-device-width: 480px)" href="/stylesheets/iphone.css" type="text/css" rel="stylesheet" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <script type="text/javascript">
+            var storage = $.jStorage.get("itemsILike");
+        </script>
+</head> 
+<body>
+    <header>
+    <nav>
+        <ul>
+             {% for store in [ {'name':"Bonnine", 'id': '402'} , {'name':"Couvin", 'id': '436'} , {'name':"Loverval", 'id': '415'} ,  {'name':"Jumet", 'id': '400'} , {'name':"Wavre", 'id': '405'},  {'name':"La Louviere", 'id': '403'},  {'name':"Mons", 'id': '414'} ] %}
+             	<li> <a href="/0?&store={{store.id}}"> {{store.name}}</a></li>
+             {% endfor%}
+             <li> <a href="/Like">Stars</a></li>
+        </ul>
+    </nav>
+    </header>
+    <section role="main">
+        {% block body %}{% endblock %}
+    </section>
+
+</body>
+</html>
