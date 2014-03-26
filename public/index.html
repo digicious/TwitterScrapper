@@ -77,7 +77,7 @@
 
 		   },3500);  
 	  
-	  socket = io.connect('http://localhost:8081');
+	  socket = io.connect('http://www.digicious.be:8081');
       socket.on('newImages', function (data) {
 			console.log("keyword :" + data.keyword);
 			console.log("images :" + data.images.length);
