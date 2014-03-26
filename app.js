@@ -16,7 +16,7 @@ var app =express()
 , server = require('http').createServer(app)
 , io = require('socket.io').listen(server,{ log: false });
 
-server.listen(8080);
+server.listen(8081);
 app.engine('html', swig.renderFile);
 
 // all environments
