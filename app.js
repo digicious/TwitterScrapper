@@ -83,7 +83,7 @@ io.sockets.on('connection', function (socket) {
 			url += "&scroll_cursor=" + data.nextPage;
 		}
 		client.get(url, function(err, res, body) {
-			if (!err && res.statusCode == 200) 
+			if (!err && res.statusCode != 200) 
 			{
 				console.log("Get of "+ url + "failed");
 				return; 

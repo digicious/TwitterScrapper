@@ -51,7 +51,7 @@ table {
 	   width:640px;
 	   height:  960px;
 	   overflow: hidden;
-	   border: 3px solid black;
+	   border: 1px solid grey;
 	}
 
 		#imgBg {
@@ -120,7 +120,7 @@ table {
 
 		   },3500);  
 	  
-	  socket = io.connect('http://www.digicious.be:8081');
+	  socket = io.connect('http://localhost:8081');
       socket.on('newImages', function (data) {
 			console.log("keyword :" + data.keyword);
 			console.log("images :" + data.images.length);
