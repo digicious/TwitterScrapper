@@ -51,35 +51,44 @@ function scrapUrl(url, nextPage)
 	}
 
 	client.get(url, function(err, res, body) {
-		nextPage = body.scroll_cursor;
-		var $ = cheerio.load(body.items_html);
-		console.log(url);
-		console.log(keyword);
-		$("span").each(function(){
-			if(url.indexOf(keyword) != -1)
-			{
-
-				var val = $(this).attr("data-resolved-url-large");
-				if(val )
+		 if (!error && response.statusCode == 200) 
+		 {
+		 	nextPage = body.scroll_cursor;
+			var $ = cheerio.load(body.items_html);
+			console.log(url);
+			console.log(keyword);
+			$("span").each(function(){
+				if(url.indexOf(keyword) != -1)
 				{
-					io.sockets.emit("newImages",[val]);
+
+					var val = $(this).attr("data-resolved-url-large");
+					if(val )
+					{
+						io.sockets.emit("newImages",[val]);
+					}
 				}
+				});
+			return nextPage;
 			}
-			});
-		return nextPage;
 		});
 }
 
 io.sockets.on('connection', function (socket) {
 	socket.on('giveMeMore', function (data) { 
 		console.log("giveMeMoreCalled " + data);
+
 		var url = urlToScrape.replace("test",data.keyword);
 		if(data.nextPage)
 		{
 			url += "&scroll_cursor=" + data.nextPage;
 		}
 		client.get(url, function(err, res, body) {
-				var $ = cheerio.load(body.items_html);
+			if (!err && res.statusCode == 200) 
+			{
+				console.log("Get of "+ url + "failed");
+				return; 
+			}
+			var $ = cheerio.load(body.items_html);
 				var images = [];
 				$("span").each(function(){
 						var val = $(this).attr("data-resolved-url-large");

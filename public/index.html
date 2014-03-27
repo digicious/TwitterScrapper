@@ -1,39 +1,75 @@
 <html>
 <head>
 	<style>
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
        .slideshow {
-	   width: 960px;
-	   height: 640px;
+	   width:640px;
+	   height:  960px;
 	   overflow: hidden;
-	   border: 3px solid #F2F2F2;
+	   border: 3px solid black;
 	}
 
-	.slideshow ul {
-	    /* 4 images donc 4 x 100% */
-	   width: 100%;
-	   height: 640px;
-	   padding:0; margin:0;
-	   list-style: none;
-	}
-	.slideshow li {
-	   float: left;
-	}
-	.slideshow li div  {
-	    width: 960px;
-	   height: 640px;
-	   margin-right: auto;
-	   margin-left: auto;
-	}
+		#imgBg {
+		
+		    max-height: 960px;
+        	min-width: 640px;
+        	width: 640px;
+        	height: auto;
+			position: fixed;
+  		      top: 0;
+  	      left: 0;
+		}
 
-	.slideshow li div img {
-	   max-width: 960px;
-	   max-height: 640px;
-	}
 
   </style>
 
   	<script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>  
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>  
    
 	<script type="text/javascript">  
 
@@ -63,7 +99,14 @@
 	      	// console.log(images);
 	        if(images.length !=0 )
 	        {
-	        	$("#host").empty().html("<li><div><img src=\""+ images[(counter++)%images.length] + "\"/></div></li>");	
+	        	/*var htmlStr = "<li><div id=\"imgBg\" > </div></li>";
+	        	$("#host").empty().html(htmlStr);	*/
+	        	/*$('#imgBg').css("background", "url('" + images[(counter++)%images.length] + "') no-repeat");
+	        	$('#imgBg').css("-moz-border-image:", "url('" + images[(counter++)%images.length] + "') 0");
+				*/	
+				$('#imgBg').attr("src", images[(counter++)%images.length]) ;
+			
+	        	
 	        }
 	          
 	         if( (counter + 3) >  images.length)
@@ -91,8 +134,8 @@
 	</script>
 	</head>
 	<body>
-		<div  class="slideshow">
-			<ul id="host"></ul>
+		<div class="slideshow" >					
+			<img  id="imgBg"/>
 		</div>
 	</body>
 
