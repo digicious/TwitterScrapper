@@ -81,7 +81,7 @@
       socket.on('newImages', function (data) {
 			console.log("keyword :" + data.keyword);
 			console.log("images :" + data.images.length);
-		    for (var i = data.images.length - 1; i >= 0; i--) {
+		    for (var i = 0  ; i <  data.images.length; i--) {
 		    	//console.log("<img src=\""+ data[i] + "\"/>");
 		    	images.push(data.images[i]);
 		    };
