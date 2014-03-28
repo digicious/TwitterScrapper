@@ -2,136 +2,137 @@
 <head>
 	<style>
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-
-       .slideshow {
-	   width:640px;
-	   height:  960px;
-	   overflow: hidden;
-	   border: 0px solid gray;
+	html, body, div, span, applet, object, iframe,
+	h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+	a, abbr, acronym, address, big, cite, code,
+	del, dfn, em, img, ins, kbd, q, s, samp,
+	small, strike, strong, sub, sup, tt, var,
+	b, u, i, center,
+	dl, dt, dd, ol, ul, li,
+	fieldset, form, label, legend,
+	table, caption, tbody, tfoot, thead, tr, th, td,
+	article, aside, canvas, details, embed, 
+	figure, figcaption, footer, header, hgroup, 
+	menu, nav, output, ruby, section, summary,
+	time, mark, audio, video {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		font: inherit;
+		vertical-align: baseline;
+	}
+	/* HTML5 display-role reset for older browsers */
+	article, aside, details, figcaption, figure, 
+	footer, header, hgroup, menu, nav, section {
+		display: block;
+	}
+	body {
+		line-height: 1;
+	}
+	ol, ul {
+		list-style: none;
+	}
+	blockquote, q {
+		quotes: none;
+	}
+	blockquote:before, blockquote:after,
+	q:before, q:after {
+		content: '';
+		content: none;
+	}
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
 	}
 
-		#imgBg {
+
+	.slideshow {
+		width:640px;
+		height:  960px;
+		overflow: hidden;
+		border: 0px solid gray;
+	}
+
+	#imgBg {
 		
-		    max-height: 960px;
-        	min-width: 640px;
-        	width: 640px;
-        	height: auto;
-			position: fixed;
-  		      top: 0;
-  	      left: 0;
-		}
+		max-height: 960px;
+		min-width: 640px;
+		width: 640px;
+		height: auto;
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
 
 
-  </style>
+	</style>
 
-  	<script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>  
-   
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>  
+
 	<script type="text/javascript">  
 
 	function getQueryStrings() { 
-		  var assoc  = {};
-		  var decode = function (s) { return decodeURIComponent(s.replace(/\+/g, " ")); };
-		  var queryString = location.search.substring(1); 
-		  var keyValues = queryString.split('&'); 
+		var assoc  = {};
+		var decode = function (s) { return decodeURIComponent(s.replace(/\+/g, " ")); };
+		var queryString = location.search.substring(1); 
+		var keyValues = queryString.split('&'); 
 
-		  for(var i in keyValues) { 
-		    var key = keyValues[i].split('=');
-		    if (key.length > 1) {
-		      assoc[decode(key[0])] = decode(key[1]);
-		    }
-		  } 
-
-		  return assoc; 
+		for(var i in keyValues) { 
+			var key = keyValues[i].split('=');
+			if (key.length > 1) {
+				assoc[decode(key[0])] = decode(key[1]);
+			}
 		} 
 
+		return assoc; 
+	} 
 
-		var counter = 0;
-		var images = [];
-		var nextPage = "";
-		var socket;
-	   $(function(){  
-	      setInterval(function(){  
-	      	// console.log(images);
-	        if(images.length !=0 )
+
+	var counter = 0;
+	var images = [];
+	var nextPage = "";
+	var socket;
+
+	function FeedImageList()
+	{
+			if(images.length !=0 )
+			{
+		        	/*var htmlStr = "<li><div id=\"imgBg\" > </div></li>";
+		        	$("#host").empty().html(htmlStr);	*/
+		        	/*$('#imgBg').css("background", "url('" + images[(counter++)%images.length] + "') no-repeat");
+		        	$('#imgBg').css("-moz-border-image:", "url('" + images[(counter++)%images.length] + "') 0");
+		        	*/	
+		        	$('#imgBg').attr("src", images[(counter++)%images.length]) ;
+		    
+		    }
+	        if( (counter + 3) >  images.length)
 	        {
-	        	/*var htmlStr = "<li><div id=\"imgBg\" > </div></li>";
-	        	$("#host").empty().html(htmlStr);	*/
-	        	/*$('#imgBg').css("background", "url('" + images[(counter++)%images.length] + "') no-repeat");
-	        	$('#imgBg').css("-moz-border-image:", "url('" + images[(counter++)%images.length] + "') 0");
-				*/	
-				$('#imgBg').attr("src", images[(counter++)%images.length]) ;
-			
-	        	
+	        	var q = location.pathname.substring(1) 
+	        	var data = { "keyword": q, 'nextPage' :  nextPage };
+	        	socket.emit("giveMeMore",data);
 	        }
-	          
-	         if( (counter + 3) >  images.length)
-	         {
-	         	var q = getQueryStrings()["q"];
-	         	console.log(q);
-	        	console.log("nextPage :" + nextPage);
-      			var data = { "keyword": q, 'nextPage' :  nextPage };
-      			socket.emit("giveMeMore",data);
-	         }
 
-		   },3500);  
-	  
-	  socket = io.connect('http://www.digicious.be:8081');
-      socket.on('newImages', function (data) {
-			console.log("keyword :" + data.keyword);
-			console.log("images :" + data.images.length);
-		    for (var i = 0  ; i <  data.images.length; i++) {
-		    	//console.log("<img src=\""+ data[i] + "\"/>");
-		    	images.push(data.images[i]);
-		    };
-		    nextPage =  data.nextPage ;
-	   });
-  	});
-	</script>
+	    }
+	    $(function(){  
+	    	socket = io.connect(location.origin);
+	    	socket.on('newImages', function (data) {
+	    		for (var i = 0  ; i <  data.images.length; i++) {
+			    	//console.log("<img src=\""+ data[i] + "\"/>");
+			    	images.push(data.images[i]);
+			    };
+			    nextPage =  data.nextPage ;
+			    });
+	    	FeedImageList();
+	    	setInterval(function(){  
+	      	// console.log(images);
+	      	FeedImageList();
+	      	},3500);  
+
+
+	    	});
+	    </script>
 	</head>
 	<body>
 		<div class="slideshow" >					
@@ -140,4 +141,4 @@ table {
 	</body>
 
 
-</html>
+	</html>
